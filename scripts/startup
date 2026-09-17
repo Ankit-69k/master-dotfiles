@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -u
+
+RICE="$HOME/my-rice"
+GENERATED="$RICE/generated/current"
+
+# ─────────────────────────────────────
+# Start Hyprpaper
+# ─────────────────────────────────────
+
+if ! pgrep -x hyprpaper >/dev/null; then
+  hyprpaper >/tmp/hyprpaper.log 2>&1 &
+fi
+
+# ─────────────────────────────────────
+# Apply current wallpaper
+# ─────────────────────────────────────
+
+if [[ -f "$GENERATED/ACTIVE_WALLPAPER" ]]; then
+  "$RICE/scripts/wallpaper-current"
+fi
+
+# ─────────────────────────────────────
+# Start Waybar
+# ─────────────────────────────────────
+
+if ! pgrep -x waybar >/dev/null; then
+  waybar \
+    -c "$GENERATED/config.jsonc" \
+    -s "$GENERATED/style.css" \
+    >/tmp/waybar.log 2>&1 &
+fi
+
+# Clipboard history
+wl-paste --type text --watch cliphist store &

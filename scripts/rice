@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+RICE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+case "${1:-help}" in
+
+theme)
+  "$RICE_DIR/scripts/theme-switcher" "${2:-}"
+  ;;
+
+themes)
+  "$RICE_DIR/scripts/theme-switcher"
+  ;;
+
+wallpaper | wall)
+  "$RICE_DIR/scripts/wallpaper" "${2:-random}"
+  ;;
+
+random)
+  "$RICE_DIR/scripts/wallpaper" random
+  ;;
+
+next)
+  "$RICE_DIR/scripts/wallpaper" next
+  ;;
+
+current)
+  "$RICE_DIR/scripts/wallpaper-current"
+  ;;
+
+reload)
+  hyprctl reload
+  ;;
+
+help | --help | -h)
+  cat <<EOF
+
+my-rice
+
+Theme:
+    rice theme <name>
+    rice themes
+
+Wallpaper:
+    rice wallpaper random
+    rice wallpaper next
+    rice wallpaper <filename>
+
+    rice random
+    rice next
+    rice current
+
+System:
+    rice reload
+
+Examples:
+    rice theme gruvbox
+    rice theme nord
+    rice wallpaper random
+    rice wallpaper "gojo.png"
+
+EOF
+  ;;
+
+*)
+  echo "Unknown command: $1"
+  echo "Run: rice help"
+  exit 1
+  ;;
+
+esac

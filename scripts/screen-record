@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -u
+
+RECORDINGS="$HOME/Videos/screencast"
+mkdir -p "$RECORDINGS"
+
+if pgrep -x wf-recorder >/dev/null; then
+  pkill -INT -x wf-recorder
+else
+  TIMESTAMP="$(date '+%Y-%m-%d_%H-%M-%S')"
+  wf-recorder -f "$RECORDINGS/screen_$TIMESTAMP.mp4" >/tmp/wf-recorder.log 2>&1 &
+fi

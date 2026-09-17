@@ -1,0 +1,212 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+RICE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+THEMES_DIR="$RICE_DIR/themes"
+GENERATED_DIR="$RICE_DIR/generated"
+
+ACTIVE_THEME_FILE="$GENERATED_DIR/ACTIVE_THEME"
+ACTIVE_WALLPAPER_FILE="$GENERATED_DIR/ACTIVE_WALLPAPER"
+
+# --------------------------------------------------
+# Active theme
+# --------------------------------------------------
+
+if [[ ! -f "$ACTIVE_THEME_FILE" ]]; then
+  echo "Error: no active theme."
+  exit 1
+fi
+
+THEME="$(<"$ACTIVE_THEME_FILE")"
+WALLPAPER_DIR="$THEMES_DIR/$THEME/wallpaper"
+
+if [[ ! -d "$WALLPAPER_DIR" ]]; then
+  echo "Error: wallpaper directory does not exist:"
+  echo "$WALLPAPER_DIR"
+  exit 1
+fi
+
+# --------------------------------------------------
+# Find wallpapers
+# --------------------------------------------------
+
+mapfile -t WALLPAPERS < <(
+  find "$WALLPAPER_DIR" -maxdepth 1 -type f \
+    \( \
+    -iname "*.png" \
+    -o -iname "*.jpg" \
+    -o -iname "*.jpeg" \
+    -o -iname "*.webp" \
+    -o -iname "*.gif" \
+    -o -iname "*.mp4" \
+    -o -iname "*.webm" \
+    \) |
+    sort
+)
+
+if [[ ${#WALLPAPERS[@]} -eq 0 ]]; then
+  echo "Error: no wallpapers found in:"
+  echo "$WALLPAPER_DIR"
+  exit 1
+fi
+
+# --------------------------------------------------
+# Select wallpaper
+# --------------------------------------------------
+
+MODE="${1:-random}"
+
+case "$MODE" in
+
+random)
+  WALLPAPER="${WALLPAPERS[RANDOM % ${#WALLPAPERS[@]}]}"
+  ;;
+
+next)
+
+  if [[ ! -f "$ACTIVE_WALLPAPER_FILE" ]]; then
+    WALLPAPER="${WALLPAPERS[0]}"
+  else
+    CURRENT="$(<"$ACTIVE_WALLPAPER_FILE")"
+    CURRENT_INDEX=-1
+
+    for i in "${!WALLPAPERS[@]}"; do
+      if [[ "${WALLPAPERS[$i]}" == "$CURRENT" ]]; then
+        CURRENT_INDEX="$i"
+        break
+      fi
+    done
+
+    if ((CURRENT_INDEX < 0)); then
+      WALLPAPER="${WALLPAPERS[0]}"
+    else
+      NEXT_INDEX=$(((CURRENT_INDEX + 1) % ${#WALLPAPERS[@]}))
+      WALLPAPER="${WALLPAPERS[$NEXT_INDEX]}"
+    fi
+  fi
+  ;;
+
+*)
+  if [[ -f "$MODE" ]]; then
+    WALLPAPER="$(realpath "$MODE")"
+
+  elif [[ -f "$WALLPAPER_DIR/$MODE" ]]; then
+    WALLPAPER="$WALLPAPER_DIR/$MODE"
+
+  else
+    echo "Error: wallpaper not found:"
+    echo "$MODE"
+    exit 1
+  fi
+  ;;
+
+esac
+
+# --------------------------------------------------
+# Validate
+# --------------------------------------------------
+
+if [[ ! -f "$WALLPAPER" ]]; then
+  echo "Error: wallpaper does not exist:"
+  echo "$WALLPAPER"
+  exit 1
+fi
+
+EXT="${WALLPAPER##*.}"
+EXT="${EXT,,}"
+
+printf '%s\n' "$WALLPAPER" >"$ACTIVE_WALLPAPER_FILE"
+
+echo
+echo "Theme:     $THEME"
+echo "Wallpaper: $(basename "$WALLPAPER")"
+echo "Type:      $EXT"
+echo
+
+# --------------------------------------------------
+# Animated wallpapers
+# --------------------------------------------------
+
+case "$EXT" in
+
+gif | mp4 | webm)
+
+  echo "Starting mpvpaper..."
+
+  # Stop only mpvpaper when switching to animated wallpaper
+  pkill -x mpvpaper 2>/dev/null || true
+
+  mpvpaper \
+    -o "no-audio --loop-file=inf" \
+    '*' \
+    "$WALLPAPER" \
+    >/tmp/mpvpaper.log 2>&1 &
+
+  echo "✓ Animated wallpaper applied."
+  ;;
+
+  # --------------------------------------------------
+  # Static wallpapers
+  # --------------------------------------------------
+
+png | jpg | jpeg | webp)
+
+  # If mpvpaper was running, stop it.
+  pkill -x mpvpaper 2>/dev/null || true
+
+  # Start Hyprpaper only if it isn't already running.
+  if ! pgrep -x hyprpaper >/dev/null; then
+    echo "Starting Hyprpaper..."
+
+    hyprpaper \
+      >/tmp/hyprpaper.log 2>&1 &
+
+    # Wait for the process/socket instead of a fixed delay.
+    for _ in {1..50}; do
+      if hyprctl hyprpaper listloaded >/dev/null 2>&1; then
+        break
+      fi
+    done
+  fi
+
+  # Get monitors
+  mapfile -t MONITORS < <(
+    hyprctl monitors |
+      awk '/^Monitor / {print $2}'
+  )
+
+  if [[ ${#MONITORS[@]} -eq 0 ]]; then
+    echo "Error: no Hyprland monitors found."
+    exit 1
+  fi
+
+  echo "Preloading wallpaper..."
+
+  # Load image into Hyprpaper memory first.
+  hyprctl hyprpaper preload "$WALLPAPER" >/dev/null 2>&1 || true
+
+  echo "Applying wallpaper..."
+
+  for MONITOR in "${MONITORS[@]}"; do
+    echo "  -> $MONITOR"
+
+    hyprctl hyprpaper wallpaper "$MONITOR,$WALLPAPER"
+  done
+
+  echo "✓ Wallpaper applied."
+  ;;
+
+*)
+
+  echo "Error: unsupported wallpaper format: .$EXT"
+  exit 1
+  ;;
+
+esac
+
+echo
+echo "Active wallpaper:"
+echo "$WALLPAPER"
+echo

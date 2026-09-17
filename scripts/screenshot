@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+case "${1:-full}" in
+full)
+  grim - | wl-copy
+  ;;
+
+area)
+  grim -g "$(slurp)" - | wl-copy
+  ;;
+
+*)
+  echo "Usage: $0 {full|area}"
+  exit 1
+  ;;
+esac

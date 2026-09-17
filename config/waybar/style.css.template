@@ -1,0 +1,59 @@
+/* AUTO-GENERATED — theme: {{theme_name}} */
+
+* {
+    font-family: "{{font}}";
+    font-size: {{font_size}}px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: transparent;
+    color: #{{foreground}};
+}
+
+#workspaces button {
+    padding: 0 2px;
+    color: #{{comment}};
+    background: transparent;
+    border: none;
+}
+
+/* Workspace containing at least one window */
+#workspaces button:not(.empty) {
+    color: #{{foreground}};
+}
+
+/* Currently focused workspace */
+#workspaces button.active {
+    color: #{{foreground}};
+}
+
+/* Workspace with windows, but not currently focused */
+#workspaces button:not(.active):not(.empty) {
+    color: #{{accent}};
+}
+
+/* Hover */
+#workspaces button:hover {
+    color: #{{foreground}};
+}
+
+#clock,
+#custom-weather,
+#tray {
+    padding: 0 10px;
+    margin: 4px 2px;
+    background: #{{background_alt}};
+    color: #{{foreground}};
+    border-radius: {{border_radius}}px;
+}
+
+#custom-arch { color: #{{accent}}; font-size: 15px; }
+#clock       { color: #{{foreground}}; font-weight: bold; }
+#custom-weather { color: #{{yellow}}; }
+
+#battery.warning  { color: #{{yellow}}; }
+#battery.critical { color: #{{red}}; }
+#network.disconnected { color: #{{red}}; }
+#bluetooth.off { color: #{{comment}}; }
+

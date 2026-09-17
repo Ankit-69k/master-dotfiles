@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+RICE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+ACTIVE="$RICE_DIR/generated/ACTIVE_WALLPAPER"
+
+if [[ ! -f "$ACTIVE" ]]; then
+  echo "No active wallpaper."
+  exit 1
+fi
+
+WALLPAPER="$(<"$ACTIVE")"
+
+if [[ ! -f "$WALLPAPER" ]]; then
+  echo "Wallpaper does not exist:"
+  echo "$WALLPAPER"
+  exit 1
+fi
+
+"$RICE_DIR/scripts/wallpaper" "$WALLPAPER"

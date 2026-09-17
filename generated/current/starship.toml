@@ -1,0 +1,42 @@
+# AUTO-GENERATED — theme: tokyo-night
+
+format = """
+╭─ $directory$git_branch$git_status
+╰─ $character"""
+
+add_newline = false
+
+[directory]
+style = "bold #7aa2f7"
+format = "[$path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = "󰘬 "
+style = "bold #bb9af7"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold #bb9af7"
+format = "[$all_status$ahead_behind]($style)"
+
+[character]
+success_symbol = "[❯](#9ece6a)"
+error_symbol = "[❯](#f7768e)"
+vimcmd_symbol = "[❮](#bb9af7)"
+
+[cmd_duration]
+min_time = 1000
+format = "took [$duration](#7aa2f7) "
+
+[username]
+show_always = false
+style_user = "bold #7aa2f7"
+
+[hostname]
+ssh_only = true
+style = "bold #bb9af7"
+
+[line_break]
+disabled = false

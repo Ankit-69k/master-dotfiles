@@ -1,0 +1,137 @@
+// AUTO-GENERATED — theme: {{theme_name}}
+{
+  // Layout
+  "layer": "top",
+    "modules-left": [
+      "custom/arch",
+    "hyprland/workspaces",
+    "tray",
+    ],
+    "modules-center": [
+      "clock"
+    ],
+    "modules-right": [
+      "temperature",
+    "cpu",
+    "memory",
+    "custom/screen-record",
+    "network",
+    "bluetooth",
+    "pulseaudio",
+    "battery",
+    "custom/power"
+    ],
+
+    // Layout styles
+    "spacing": 8,
+
+    // Modules
+    "custom/arch": {
+      "format": "  ",
+      "tooltip": false,
+      "on-click": "rofi -show drun"
+    },
+    "clock": {
+      "interval": 60,
+      "format": "{:%I:%M %p | %d %b %Y}",
+      "max-length": 25
+    },
+    "bluetooth": {
+      "format": " ",
+      "format-disabled": "󰂲 ",
+      "format-off": "󰂲 ",
+      "format-connected": " ",
+      "tooltip": true,
+      "tooltip-format": "Bluetooth: {device_alias}",
+      "on-click": "ghostty --title='Bluetooth Menu' -e bash -c '$HOME/my-rice/scripts/bluetooth-menu.sh'"
+    },
+    "cpu": {
+      "interval": 10,
+      "format": " ",
+      "tooltip": true,
+      "tooltip-format": "CPU: {usage}%",
+      "on-click": "ghostty --title='System Monitor' -e btm"
+    },
+    "memory": {
+      "interval": 30,
+      "format": " ",
+      "tooltip": true,
+      "tooltip-format": "Memory: {used:0.1f}G / {total:0.1f}G",
+      "on-click": "ghostty --title='System Monitor' -e btm"
+    },
+    "temperature": {
+      "critical-threshold": 80,
+      "format": " ",
+      "format-critical": " ",
+      "tooltip": true,
+      "tooltip-format": "Temperature: {temperatureC}°C",
+      "on-click": "ghostty --title='System Monitor' -e btm"
+    },
+    "hyprland/workspaces": {
+      "format": "{name}",
+      "persistent-workspaces": {
+        "*": 5 // 5 workspaces by default on every monitor
+      }
+    },
+    "pulseaudio": {
+      "format": "{icon}",
+      "format-muted": " ",
+      "format-icons": {
+        "default": [" ", " "]
+      },
+      "scroll-step": 5,
+      "tooltip": true,
+      "tooltip-format": "Volume: {volume}%",
+      "on-click": "ghostty --title='Sound Menu' -e bash -c '$HOME/my-rice/scripts/sound-menu.sh'"
+    },
+    "network": {
+      "format-wifi": " ",
+      "format-ethernet": "󰈀 ",
+      "format-disconnected": "󰤭 ",
+      "tooltip": true,
+      "tooltip-format-wifi": "Wi-Fi: {essid}\nSignal: {signalStrength}%",
+      "tooltip-format-ethernet": "Ethernet: {ifname}",
+      "tooltip-format-disconnected": "Disconnected",
+      "on-click": "ghostty --title='WiFi Menu' -e bash -c '$HOME/my-rice/scripts/wifi-menu.sh'"
+    },
+    "custom/power": {
+      "format" : "⏻  ",
+      "tooltip": false,
+      "on-click": "wlogout" 
+    },
+    "custom/weather": {
+      "exec": "$HOME/my-rice/scripts/weather.sh",
+      "format" : "{}",
+      "interval": 600
+    },
+    "battery": {
+      "bat": "BAT1",
+      "adapter": "AC",
+      "interval": 5,
+      "format": "{icon}",
+      "format-charging": "󰂄 ",
+      "format-plugged": "󰚥 ",
+      "format-icons": [
+        "󰁺 ",
+      "󰁻 ",
+      "󰁼 ",
+      "󰁽 ",
+      "󰁾 ",
+      "󰁿 ",
+      "󰂀 ",
+      "󰂁 ",
+      "󰂂 ",
+      "󰁹 "
+      ],
+      "tooltip": true,
+      "tooltip-format": "{capacity}% • {timeTo}",
+      "on-click": "ghostty -e btop"
+    },
+    "custom/screen-record": {
+      "exec": "pgrep -x wf-recorder >/dev/null && echo '󰑋 ' || echo '󰻃 '",
+      "interval": 1,
+      "on-click": "~/my-rice/scripts/screen-record",
+      "tooltip": true,
+      "format": "{}"
+    },
+}

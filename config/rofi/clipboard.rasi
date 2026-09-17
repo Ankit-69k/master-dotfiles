@@ -1,0 +1,109 @@
+configuration {
+    show-icons: false;
+    drun-display-format: "{name}";
+    display-drun: "Applications";
+    display-window: "Windows";
+    display-run: "Run";
+}
+
+* {
+    background: #1e1e2e;
+    background-alt: #313244;
+    foreground: #cdd6f4;
+    selected: #89b4fa;
+    urgent: #f38ba8;
+
+    border-color: #45475a;
+}
+
+window {
+    width: 700px;
+    height: 600px;
+
+    border: 2px;
+    border-radius: 14px;
+    border-color: @border-color;
+
+    background-color: @background;
+
+    padding: 20px;
+}
+
+mainbox {
+    children: [
+        inputbar,
+        listview
+    ];
+
+    spacing: 16px;
+}
+
+inputbar {
+    children: [
+        prompt,
+        entry
+    ];
+
+    background-color: @background-alt;
+
+    border-radius: 10px;
+    padding: 12px 16px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @selected;
+
+    padding: 0px 10px 0px 0px;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @foreground;
+
+    placeholder: "Search clipboard...";
+    placeholder-color: #6c7086;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+
+    fixed-height: false;
+    dynamic: true;
+
+    spacing: 6px;
+}
+
+element {
+    padding: 12px 14px;
+    border-radius: 9px;
+
+    background-color: transparent;
+    text-color: @foreground;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: @foreground;
+
+    vertical-align: 0.5;
+}
+
+element selected {
+    background-color: @selected;
+}
+
+element selected element-text {
+    text-color: @background;
+}
+
+scrollbar {
+    width: 5px;
+
+    handle-width: 5px;
+    handle-color: @selected;
+    border-radius: 5px;
+
+    background-color: transparent;
+}

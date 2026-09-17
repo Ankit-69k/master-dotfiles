@@ -1,0 +1,42 @@
+# AUTO-GENERATED — theme: {{theme_name}}
+
+format = """
+╭─ $directory$git_branch$git_status
+╰─ $character"""
+
+add_newline = false
+
+[directory]
+style = "bold {{starship_directory}}"
+format = "[$path]($style) "
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = "󰘬 "
+style = "bold {{starship_git}}"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold {{starship_git}}"
+format = "[$all_status$ahead_behind]($style)"
+
+[character]
+success_symbol = "[❯]({{starship_success}})"
+error_symbol = "[❯]({{starship_error}})"
+vimcmd_symbol = "[❮]({{starship_git}})"
+
+[cmd_duration]
+min_time = 1000
+format = "took [$duration]({{starship_directory}}) "
+
+[username]
+show_always = false
+style_user = "bold {{starship_directory}}"
+
+[hostname]
+ssh_only = true
+style = "bold {{starship_git}}"
+
+[line_break]
+disabled = false

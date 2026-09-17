@@ -1,0 +1,144 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+RICE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+THEMES_DIR="$RICE_DIR/themes"
+GENERATE="$RICE_DIR/scripts/generate-theme"
+WALLPAPER="$RICE_DIR/scripts/wallpaper"
+
+CONFIG="$HOME/.config"
+
+THEME="${1:-}"
+
+# --------------------------------------------------
+# Theme list
+# --------------------------------------------------
+
+if [[ -z "$THEME" ]]; then
+  echo "Available themes:"
+  echo
+
+  find "$THEMES_DIR" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -printf '  %f\n' |
+    sort
+
+  exit 0
+fi
+
+# --------------------------------------------------
+# Validate theme
+# --------------------------------------------------
+
+if [[ ! -d "$THEMES_DIR/$THEME" ]]; then
+  echo "Error: theme '$THEME' does not exist."
+  exit 1
+fi
+
+echo
+echo "================================"
+echo " Applying theme: $THEME"
+echo "================================"
+echo
+
+# --------------------------------------------------
+# Generate theme
+# --------------------------------------------------
+
+"$GENERATE" "$THEME"
+
+# --------------------------------------------------
+# Create config directories
+# --------------------------------------------------
+
+mkdir -p \
+  "$CONFIG/hypr" \
+  "$CONFIG/waybar" \
+  "$CONFIG/rofi" \
+  "$CONFIG/ghostty"
+
+# --------------------------------------------------
+# Hyprland
+# --------------------------------------------------
+
+ln -sfn \
+  "$RICE_DIR/generated/current/hyprland.lua" \
+  "$CONFIG/hypr/hyprland.lua"
+
+ln -sfn \
+  "$RICE_DIR/generated/current/keybinds.lua" \
+  "$CONFIG/hypr/keybinds.lua"
+
+ln -sfn \
+  "$RICE_DIR/generated/current/hyprpaper.conf" \
+  "$CONFIG/hypr/hyprpaper.conf"
+
+# --------------------------------------------------
+# Waybar
+# --------------------------------------------------
+
+ln -sfn \
+  "$RICE_DIR/generated/current/config.jsonc" \
+  "$CONFIG/waybar/config.jsonc"
+
+ln -sfn \
+  "$RICE_DIR/generated/current/style.css" \
+  "$CONFIG/waybar/style.css"
+
+# --------------------------------------------------
+# Rofi
+# --------------------------------------------------
+
+ln -sfn \
+  "$RICE_DIR/generated/current/theme.rasi" \
+  "$CONFIG/rofi/theme.rasi"
+
+# --------------------------------------------------
+# Ghostty
+# --------------------------------------------------
+
+ln -sfn \
+  "$RICE_DIR/generated/current/config" \
+  "$CONFIG/ghostty/config"
+
+# --------------------------------------------------
+# Reload Hyprland
+# --------------------------------------------------
+
+echo "Reloading Hyprland..."
+
+hyprctl reload >/dev/null 2>&1 || true
+
+# --------------------------------------------------
+# Restart Waybar
+# --------------------------------------------------
+
+echo "Restarting Waybar..."
+
+pkill -x waybar 2>/dev/null || true
+
+sleep 0.2
+
+nohup waybar \
+  -c "$RICE_DIR/generated/current/config.jsonc" \
+  -s "$RICE_DIR/generated/current/style.css" \
+  >/tmp/waybar.log 2>&1 </dev/null &
+
+# --------------------------------------------------
+# Apply theme wallpaper
+# --------------------------------------------------
+
+echo "Selecting wallpaper..."
+
+"$WALLPAPER" random \
+  >/tmp/wallpaper.log 2>&1 </dev/null
+
+echo
+echo "================================"
+echo " ✓ Theme applied: $THEME"
+echo "================================"
+echo

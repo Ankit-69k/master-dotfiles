@@ -1,0 +1,83 @@
+/* AUTO-GENERATED — theme: tokyo-night */
+
+* {
+    background:     #1a1b26;
+    background-alt: #16161e;
+    foreground:     #c0caf5;
+    accent:         #7aa2f7;
+    urgent:         #f7768e;
+
+    background-color: @background;
+    text-color:       @foreground;
+    font:             "JetBrainsMono Nerd Font 11";
+}
+
+window {
+    width:            30%;
+    border-radius:    8px;
+    border:           2px;
+    border-color:     #7aa2f755;
+    padding:          16px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing: 14px;
+}
+
+inputbar {
+    background-color: @background-alt;
+    border-radius:    8px;
+    padding:          10px 14px;
+    children:         [ prompt, entry ];
+    spacing:          8px;
+}
+
+prompt {
+    text-color: @accent;
+    font:       "JetBrainsMono Nerd Font 11 bold";
+}
+
+entry {
+    placeholder:       "Search apps…";
+    placeholder-color: #c0caf566;
+    text-color:        @foreground;
+}
+
+listview {
+    lines:        8;
+    spacing:      5px;
+    scrollbar:    false;
+    fixed-height: false;
+    dynamic:      true;
+}
+
+element {
+    padding:          9px 12px;
+    border-radius:    calc(8px - 2px);
+    spacing:          10px;
+    background-color: transparent;
+    text-color:        @foreground;
+}
+
+element normal {
+    background-color: transparent;
+    text-color:        #c0caf5cc;
+}
+
+element selected {
+    background-color: #7aa2f718;
+    text-color:        @foreground;
+    border:            1px;
+    border-color:      #7aa2f755;
+}
+
+element-icon {
+    size:            26px;
+    vertical-align:  0.5;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color:     inherit;
+}

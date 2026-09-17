@@ -1,0 +1,316 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# ============================================================
+# Paths
+# ============================================================
+
+RICE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+THEMES_DIR="$RICE_DIR/themes"
+CONFIG_DIR="$RICE_DIR/config"
+GENERATED_DIR="$RICE_DIR/generated"
+CURRENT_DIR="$GENERATED_DIR/current"
+
+# ============================================================
+# Arguments
+# ============================================================
+
+THEME="${1:-}"
+
+if [[ -z "$THEME" ]]; then
+  echo "Usage: generate-theme <theme>"
+  echo
+  echo "Available themes:"
+  find "$THEMES_DIR" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -printf '  %f\n' |
+    sort
+  exit 1
+fi
+
+# ============================================================
+# Theme paths
+# ============================================================
+
+THEME_DIR="$THEMES_DIR/$THEME"
+COLORS_FILE="$THEME_DIR/colors.conf"
+THEME_FILE="$THEME_DIR/theme.conf"
+
+# ============================================================
+# Validate theme
+# ============================================================
+
+if [[ ! -d "$THEME_DIR" ]]; then
+  echo "Error: theme '$THEME' does not exist."
+  echo
+  echo "Available themes:"
+  find "$THEMES_DIR" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -printf '  %f\n' |
+    sort
+  exit 1
+fi
+
+if [[ ! -f "$COLORS_FILE" ]]; then
+  echo "Error: missing:"
+  echo "  $COLORS_FILE"
+  exit 1
+fi
+
+if [[ ! -f "$THEME_FILE" ]]; then
+  echo "Error: missing:"
+  echo "  $THEME_FILE"
+  exit 1
+fi
+
+# ============================================================
+# Validate templates
+# ============================================================
+
+TEMPLATES=(
+  "$CONFIG_DIR/ghostty/config.template"
+  "$CONFIG_DIR/hypr/hyprland.lua.template"
+  "$CONFIG_DIR/hypr/keybinds.lua"
+  "$CONFIG_DIR/rofi/theme.rasi.template"
+  "$CONFIG_DIR/waybar/config.jsonc.template"
+  "$CONFIG_DIR/waybar/style.css.template"
+  "$CONFIG_DIR/wezterm/wezterm.lua.template"
+  "$CONFIG_DIR/nushell/config.nu.template"
+  "$CONFIG_DIR/nushell/env.nu.template"
+  "$CONFIG_DIR/starship/starship.toml.template"
+  "$CONFIG_DIR/tmux/tmux.conf.template"
+)
+
+for file in "${TEMPLATES[@]}"; do
+  if [[ ! -f "$file" ]]; then
+    echo "Error: missing template:"
+    echo "  $file"
+    exit 1
+  fi
+done
+
+# ============================================================
+# Create generated directory
+# ============================================================
+
+mkdir -p "$CURRENT_DIR"
+
+# ============================================================
+# Load colors
+#
+# Expected colors.conf format:
+#
+# background=#1d2021
+# foreground=#ebdbb2
+# accent=#fabd2f
+# comment=#928374
+#
+# ============================================================
+
+declare -A COLORS
+
+while IFS='=' read -r key value; do
+
+  # Skip empty lines
+  [[ -z "${key//[[:space:]]/}" ]] && continue
+
+  # Skip comments
+  [[ "$key" =~ ^[[:space:]]*# ]] && continue
+
+  # Remove whitespace around key/value
+  key="$(echo "$key" | xargs)"
+  value="$(echo "$value" | xargs)"
+
+  [[ -z "$key" ]] && continue
+
+  COLORS["$key"]="$value"
+
+done <"$COLORS_FILE"
+
+# ============================================================
+# Load theme.conf
+#
+# This allows additional theme variables beyond colors.conf.
+#
+# Example:
+#
+# border_width=2
+# rounding=10
+# blur=true
+#
+# ============================================================
+
+while IFS='=' read -r key value; do
+
+  [[ -z "${key//[[:space:]]/}" ]] && continue
+  [[ "$key" =~ ^[[:space:]]*# ]] && continue
+
+  key="$(echo "$key" | xargs)"
+  value="$(echo "$value" | xargs)"
+
+  [[ -z "$key" ]] && continue
+
+  COLORS["$key"]="$value"
+
+done <"$THEME_FILE"
+
+# ============================================================
+# Template renderer
+# ============================================================
+
+render_template() {
+
+  local input="$1"
+  local output="$2"
+
+  local content
+
+  content="$(<"$input")"
+
+  # Theme name
+  content="${content//\{\{theme_name\}\}/$THEME}"
+
+  # Replace all variables from colors.conf/theme.conf
+  for key in "${!COLORS[@]}"; do
+    content="${content//\{\{$key\}\}/${COLORS[$key]}}"
+  done
+
+  printf '%s\n' "$content" >"$output"
+}
+
+# ============================================================
+# Generate Ghostty
+# ============================================================
+
+echo "Generating Ghostty..."
+
+render_template \
+  "$CONFIG_DIR/ghostty/config.template" \
+  "$CURRENT_DIR/config"
+
+# ============================================================
+# Generate WezTerm
+# ============================================================
+
+echo "Generating WezTerm..."
+
+render_template \
+  "$CONFIG_DIR/wezterm/wezterm.lua.template" \
+  "$CURRENT_DIR/wezterm.lua"
+
+# ============================================================
+# Generate Hyprland
+# ============================================================
+
+echo "Generating Hyprland..."
+
+render_template \
+  "$CONFIG_DIR/hypr/hyprland.lua.template" \
+  "$CURRENT_DIR/hyprland.lua"
+
+# keybinds.lua is already a complete file,
+# so don't template it.
+cp \
+  "$CONFIG_DIR/hypr/keybinds.lua" \
+  "$CURRENT_DIR/keybinds.lua"
+cp \
+  "$CONFIG_DIR/hypr/hyprpaper.conf" \
+  "$CURRENT_DIR/hyprpaper.conf"
+
+# ============================================================
+# Generate Rofi
+# ============================================================
+
+echo "Generating Rofi..."
+
+render_template \
+  "$CONFIG_DIR/rofi/theme.rasi.template" \
+  "$CURRENT_DIR/theme.rasi"
+
+# ============================================================
+# Generate Waybar
+# ============================================================
+
+echo "Generating Waybar..."
+
+render_template \
+  "$CONFIG_DIR/waybar/config.jsonc.template" \
+  "$CURRENT_DIR/config.jsonc"
+
+render_template \
+  "$CONFIG_DIR/waybar/style.css.template" \
+  "$CURRENT_DIR/style.css"
+
+# ============================================================
+# Generate Nushell
+# ============================================================
+
+echo "Generating Nushell..."
+
+mkdir -p "$CURRENT_DIR/nushell"
+
+render_template \
+  "$CONFIG_DIR/nushell/config.nu.template" \
+  "$CURRENT_DIR/nushell/config.nu"
+
+render_template \
+  "$CONFIG_DIR/nushell/env.nu.template" \
+  "$CURRENT_DIR/nushell/env.nu"
+
+# ============================================================
+# Generate Starship
+# ============================================================
+
+echo "Generating tmux..."
+
+render_template \
+  "$CONFIG_DIR/tmux/tmux.conf.template" \
+  "$CURRENT_DIR/tmux.conf"
+
+# ============================================================
+# Generate Starship
+# ============================================================
+
+echo "Generating Starship..."
+
+render_template \
+  "$CONFIG_DIR/starship/starship.toml.template" \
+  "$CURRENT_DIR/starship.toml"
+
+# ============================================================
+# Save active theme
+# ============================================================
+
+printf '%s\n' "$THEME" >"$GENERATED_DIR/ACTIVE_THEME"
+
+# ============================================================
+# Output
+# ============================================================
+
+echo
+echo "✓ Theme generated successfully"
+echo
+echo "Theme: $THEME"
+echo
+echo "Generated:"
+echo "  $CURRENT_DIR/config"
+echo "  $CURRENT_DIR/hyprland.lua"
+echo "  $CURRENT_DIR/keybinds.lua"
+echo "  $CURRENT_DIR/theme.rasi"
+echo "  $CURRENT_DIR/config.jsonc"
+echo "  $CURRENT_DIR/style.css"
+echo "  $CURRENT_DIR/wezterm.lua"
+echo "  $CURRENT_DIR/wezterm.lua"
+echo "  $CURRENT_DIR/nushell/config.nu"
+echo "  $CURRENT_DIR/nushell/env.nu"
+echo "  $CURRENT_DIR/starship.toml"
+echo "  $CURRENT_DIR/tmux.conf"
+echo
+echo "Active theme:"
+echo "  $GENERATED_DIR/ACTIVE_THEME"
