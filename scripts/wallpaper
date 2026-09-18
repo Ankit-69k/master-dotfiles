@@ -157,19 +157,19 @@ png | jpg | jpeg | webp)
   pkill -x mpvpaper 2>/dev/null || true
 
   # Start Hyprpaper only if it isn't already running.
-  if ! pgrep -x hyprpaper >/dev/null; then
-    echo "Starting Hyprpaper..."
+  # if ! pgrep -x hyprpaper >/dev/null; then
+  #  echo "Starting Hyprpaper..."
 
-    hyprpaper \
-      >/tmp/hyprpaper.log 2>&1 &
+  #  hyprpaper \
+  #    >/tmp/hyprpaper.log 2>&1 &
 
-    # Wait for the process/socket instead of a fixed delay.
-    for _ in {1..50}; do
-      if hyprctl hyprpaper listloaded >/dev/null 2>&1; then
-        break
-      fi
-    done
-  fi
+  # Wait for the process/socket instead of a fixed delay.
+  #   for _ in {1..50}; do
+  #    if hyprctl hyprpaper listloaded >/dev/null 2>&1; then
+  #      break
+  #    fi
+  #   done
+  # fi
 
   # Get monitors
   mapfile -t MONITORS < <(

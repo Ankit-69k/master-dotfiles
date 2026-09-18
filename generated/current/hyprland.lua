@@ -1,15 +1,15 @@
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- AUTO-GENERATED — theme: tokyo-night
+-- AUTO-GENERATED — theme: rose-pine
 -- Hyprland 0.55+ Lua config.
 -- Edit config/hypr/hyprland.lua.template, not this file.
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-local background = "rgb(1a1b26)"
-local accent = "rgb(7aa2f7)"
-local inactive = "rgb(565f89)"
-local activeBorder   = "rgba(7aa2f7ee)"
-local inactiveBorder = "rgba(565f89aa)"
-local shadowColor     = "rgba(1a1b26ee)"
+local background = "rgb(191724)"
+local accent = "rgb(c4a7e7)"
+local inactive = "rgb(6e6a86)"
+local activeBorder   = "rgba(c4a7e7ee)"
+local inactiveBorder = "rgba(6e6a86aa)"
+local shadowColor     = "rgba(191724ee)"
 
 
 -- --- Autostart ---
@@ -44,8 +44,6 @@ hl.config({
 	},
 	misc = {
 		font_family = "JetBrainsMono Nerd Font",
-    disable_splash_rendering = true,
-    disable_hyprland_logo = true
 
 	},
 })

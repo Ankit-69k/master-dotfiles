@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+RICE="$HOME/my-rice"
+THEME=$(cat "$RICE/generated/ACTIVE_THEME")
+WALLPAPER_DIR="$RICE/themes/$THEME/wallpaper"
+
+WALLPAPER=$(find "$WALLPAPER_DIR" -maxdepth 1 -type f \
+    \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' -o -iname '*.mp4' -o -iname '*.webm' \) \
+    -printf '%f\n' |
+    sort |
+    rofi -dmenu \
+        -p "Wallpaper" \
+        -theme "$RICE/generated/current/theme.rasi")
+
+[[ -z "$WALLPAPER" ]] && exit 0
+
+"$RICE/scripts/wallpaper" "$WALLPAPER_DIR/$WALLPAPER"

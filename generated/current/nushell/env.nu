@@ -1,4 +1,4 @@
-# AUTO-GENERATED — theme: tokyo-night
+# AUTO-GENERATED — theme: rose-pine
 
 $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"

@@ -1,4 +1,4 @@
-/* AUTO-GENERATED — theme: tokyo-night */
+/* AUTO-GENERATED — theme: rose-pine */
 
 * {
     font-family: "JetBrainsMono Nerd Font";
@@ -8,34 +8,34 @@
 
 window#waybar {
     background-color: transparent;
-    color: #c0caf5;
+    color: #e0def4;
 }
 
 #workspaces button {
     padding: 0 2px;
-    color: #565f89;
+    color: #6e6a86;
     background: transparent;
     border: none;
 }
 
 /* Workspace containing at least one window */
 #workspaces button:not(.empty) {
-    color: #c0caf5;
+    color: #e0def4;
 }
 
 /* Currently focused workspace */
 #workspaces button.active {
-    color: #c0caf5;
+    color: #e0def4;
 }
 
 /* Workspace with windows, but not currently focused */
 #workspaces button:not(.active):not(.empty) {
-    color: #7aa2f7;
+    color: #c4a7e7;
 }
 
 /* Hover */
 #workspaces button:hover {
-    color: #c0caf5;
+    color: #e0def4;
 }
 
 #clock,
@@ -43,16 +43,16 @@ window#waybar {
 #tray {
     padding: 0 10px;
     margin: 4px 2px;
-    background: #16161e;
-    color: #c0caf5;
-    border-radius: 8px;
+    background: #1f1d2e;
+    color: #e0def4;
+    border-radius: 10px;
 }
 
-#custom-arch { color: #7aa2f7; font-size: 15px; }
-#clock       { color: #c0caf5; font-weight: bold; }
-#custom-weather { color: #e0af68; }
+#custom-arch { color: #c4a7e7; font-size: 15px; }
+#clock       { color: #e0def4; font-weight: bold; }
+#custom-weather { color: #f6c177; }
 
-#battery.warning  { color: #e0af68; }
-#battery.critical { color: #f7768e; }
-#network.disconnected { color: #f7768e; }
-#bluetooth.off { color: #565f89; }
+#battery.warning  { color: #f6c177; }
+#battery.critical { color: #eb6f92; }
+#network.disconnected { color: #eb6f92; }
+#bluetooth.off { color: #6e6a86; }

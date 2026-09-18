@@ -4,6 +4,7 @@ set -u
 
 RICE="$HOME/my-rice"
 GENERATED="$RICE/generated/current"
+ACTIVE_WALLPAPER="$RICE/generated/ACTIVE_WALLPAPER"
 
 # ─────────────────────────────────────
 # Start Hyprpaper
@@ -17,7 +18,7 @@ fi
 # Apply current wallpaper
 # ─────────────────────────────────────
 
-if [[ -f "$GENERATED/ACTIVE_WALLPAPER" ]]; then
+if [[ -f "$ACTIVE_WALLPAPER" ]]; then
   "$RICE/scripts/wallpaper-current"
 fi
 

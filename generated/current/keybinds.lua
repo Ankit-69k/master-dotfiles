@@ -19,6 +19,8 @@ hl.bind(secondMod .. "+R", function()
 end)
 hl.bind(secondMod .. "+F", hl.dsp.exec_cmd("nemo"))
 hl.bind(secondMod .. "+W", hl.dsp.exec_cmd("chromium --app=https://web.whatsapp.com"))
+hl.bind(secondMod .. "+T", hl.dsp.exec_cmd("~/my-rice/scripts/theme-menu"))
+hl.bind(secondMod .. "+P", hl.dsp.exec_cmd("~/my-rice/scripts/wallpaper-menu"))
 for i = 1, 9 do
 	local key = tostring(i)
 	hl.bind(mainMod .. "+" .. key, hl.dsp.focus({ workspace = key }))

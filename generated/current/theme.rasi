@@ -1,11 +1,11 @@
-/* AUTO-GENERATED — theme: tokyo-night */
+/* AUTO-GENERATED — theme: rose-pine */
 
 * {
-    background:     #1a1b26;
-    background-alt: #16161e;
-    foreground:     #c0caf5;
-    accent:         #7aa2f7;
-    urgent:         #f7768e;
+    background:     #191724;
+    background-alt: #1f1d2e;
+    foreground:     #e0def4;
+    accent:         #c4a7e7;
+    urgent:         #eb6f92;
 
     background-color: @background;
     text-color:       @foreground;
@@ -14,9 +14,9 @@
 
 window {
     width:            30%;
-    border-radius:    8px;
+    border-radius:    10px;
     border:           2px;
-    border-color:     #7aa2f755;
+    border-color:     #c4a7e755;
     padding:          16px;
 }
 
@@ -27,7 +27,7 @@ mainbox {
 
 inputbar {
     background-color: @background-alt;
-    border-radius:    8px;
+    border-radius:    10px;
     padding:          10px 14px;
     children:         [ prompt, entry ];
     spacing:          8px;
@@ -40,7 +40,7 @@ prompt {
 
 entry {
     placeholder:       "Search apps…";
-    placeholder-color: #c0caf566;
+    placeholder-color: #e0def466;
     text-color:        @foreground;
 }
 
@@ -54,7 +54,7 @@ listview {
 
 element {
     padding:          9px 12px;
-    border-radius:    calc(8px - 2px);
+    border-radius:    calc(10px - 2px);
     spacing:          10px;
     background-color: transparent;
     text-color:        @foreground;
@@ -62,14 +62,14 @@ element {
 
 element normal {
     background-color: transparent;
-    text-color:        #c0caf5cc;
+    text-color:        #e0def4cc;
 }
 
 element selected {
-    background-color: #7aa2f718;
+    background-color: #c4a7e718;
     text-color:        @foreground;
     border:            1px;
-    border-color:      #7aa2f755;
+    border-color:      #c4a7e755;
 }
 
 element-icon {
