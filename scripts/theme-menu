@@ -2,12 +2,18 @@
 
 RICE="$HOME/my-rice"
 
-THEME=$(find "$RICE/themes" -mindepth 1 -maxdepth 1 -type d \
+THEME=$(
+  find "$RICE/themes" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
     -printf '%f\n' |
     sort |
-    rofi -dmenu \
-        -p "Theme" \
-        -theme "$RICE/generated/current/theme.rasi")
+    rofi \
+      -dmenu \
+      -p "Theme" \
+      -theme "$RICE/generated/current/theme.rasi"
+)
 
 [[ -z "$THEME" ]] && exit 0
 

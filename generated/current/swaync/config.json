@@ -1,0 +1,17 @@
+{
+    "positionX": "right",
+    "positionY": "top",
+    "layer": "overlay",
+
+    "notification-window-width": 360,
+
+    "timeout": 5,
+    "timeout-low": 3,
+    "timeout-critical": 8,
+
+    "fit-to-screen": true,
+    "notification-icon-size": 32,
+
+    "keyboard-shortcuts": true,
+    "notification-inline-replies": false
+}

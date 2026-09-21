@@ -78,6 +78,8 @@ TEMPLATES=(
   "$CONFIG_DIR/hypr/hyprland.lua.template"
   "$CONFIG_DIR/hypr/keybinds.lua"
   "$CONFIG_DIR/rofi/theme.rasi.template"
+  "$CONFIG_DIR/swaync/config.json.template"
+  "$CONFIG_DIR/swaync/style.css.template"
   "$CONFIG_DIR/waybar/config.jsonc.template"
   "$CONFIG_DIR/waybar/style.css.template"
   "$CONFIG_DIR/wezterm/wezterm.lua.template"
@@ -234,6 +236,22 @@ render_template \
   "$CURRENT_DIR/theme.rasi"
 
 # ============================================================
+# Generate SwayNC
+# ============================================================
+
+echo "Generating SwayNC..."
+
+mkdir -p "$CURRENT_DIR/swaync"
+
+render_template \
+  "$CONFIG_DIR/swaync/config.json.template" \
+  "$CURRENT_DIR/swaync/config.json"
+
+render_template \
+  "$CONFIG_DIR/swaync/style.css.template" \
+  "$CURRENT_DIR/swaync/style.css"
+
+# ============================================================
 # Generate Waybar
 # ============================================================
 
@@ -264,7 +282,7 @@ render_template \
   "$CURRENT_DIR/nushell/env.nu"
 
 # ============================================================
-# Generate Starship
+# Generate tmux
 # ============================================================
 
 echo "Generating tmux..."
@@ -303,9 +321,10 @@ echo "  $CURRENT_DIR/config"
 echo "  $CURRENT_DIR/hyprland.lua"
 echo "  $CURRENT_DIR/keybinds.lua"
 echo "  $CURRENT_DIR/theme.rasi"
+echo "  $CURRENT_DIR/swaync/config.json"
+echo "  $CURRENT_DIR/swaync/style.css"
 echo "  $CURRENT_DIR/config.jsonc"
 echo "  $CURRENT_DIR/style.css"
-echo "  $CURRENT_DIR/wezterm.lua"
 echo "  $CURRENT_DIR/wezterm.lua"
 echo "  $CURRENT_DIR/nushell/config.nu"
 echo "  $CURRENT_DIR/nushell/env.nu"

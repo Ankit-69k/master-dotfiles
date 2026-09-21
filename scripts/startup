@@ -33,5 +33,19 @@ if ! pgrep -x waybar >/dev/null; then
     >/tmp/waybar.log 2>&1 &
 fi
 
+# ─────────────────────────────────────
+# Start SwayNC
+# ─────────────────────────────────────
+
+if ! pgrep -x swaync >/dev/null; then
+  swaync \
+    -c "$GENERATED/swaync/config.json" \
+    -s "$GENERATED/swaync/style.css" \
+    >/tmp/swaync.log 2>&1 &
+fi
+
+# ─────────────────────────────────────
 # Clipboard history
+# ─────────────────────────────────────
+
 wl-paste --type text --watch cliphist store &

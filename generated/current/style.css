@@ -1,4 +1,4 @@
-/* AUTO-GENERATED — theme: rose-pine */
+/* AUTO-GENERATED — theme: tokyo-night */
 
 * {
     font-family: "JetBrainsMono Nerd Font";
@@ -8,51 +8,89 @@
 
 window#waybar {
     background-color: transparent;
-    color: #e0def4;
+    color: #c0caf5;
 }
 
+/* Group backgrounds */
+.modules-left,
+.modules-right,
+.modules-center {
+    margin: 4px;
+    padding: 4px 10px;
+    background: #16161e;
+    border-radius: 8px;
+}
+
+/* Clock */
+#clock {
+    color: #c0caf5;
+    font-weight: bold;
+}
+
+/* Arch icon */
+#custom-arch {
+    color: #7aa2f7;
+    font-size: 16px;
+}
+
+/* Workspaces */
 #workspaces button {
-    padding: 0 2px;
-    color: #6e6a86;
+    padding: 0 3px;
+    color: #565f89;
     background: transparent;
     border: none;
+    font-size: 16px;
 }
 
-/* Workspace containing at least one window */
 #workspaces button:not(.empty) {
-    color: #e0def4;
+    color: #c0caf5;
 }
 
-/* Currently focused workspace */
 #workspaces button.active {
-    color: #e0def4;
+    color: #c0caf5;
 }
 
-/* Workspace with windows, but not currently focused */
 #workspaces button:not(.active):not(.empty) {
-    color: #c4a7e7;
+    color: #7aa2f7;
 }
 
-/* Hover */
 #workspaces button:hover {
-    color: #e0def4;
+    color: #c0caf5;
 }
 
-#clock,
-#custom-weather,
-#tray {
-    padding: 0 10px;
-    margin: 4px 2px;
-    background: #1f1d2e;
-    color: #e0def4;
-    border-radius: 10px;
+/* Right-side icons */
+#temperature,
+#cpu,
+#memory,
+#custom-screen-record,
+#network,
+#bluetooth,
+#pulseaudio,
+#battery,
+#custom-power {
+    font-size: 12px;
 }
 
-#custom-arch { color: #c4a7e7; font-size: 15px; }
-#clock       { color: #e0def4; font-weight: bold; }
-#custom-weather { color: #f6c177; }
+/* Weather */
+#custom-weather {
+    color: #e0af68;
+}
 
-#battery.warning  { color: #f6c177; }
-#battery.critical { color: #eb6f92; }
-#network.disconnected { color: #eb6f92; }
-#bluetooth.off { color: #6e6a86; }
+/* Battery */
+#battery.warning {
+    color: #e0af68;
+}
+
+#battery.critical {
+    color: #f7768e;
+}
+
+/* Network */
+#network.disconnected {
+    color: #f7768e;
+}
+
+/* Bluetooth */
+#bluetooth.off {
+    color: #565f89;
+}

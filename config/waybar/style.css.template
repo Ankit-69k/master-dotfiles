@@ -11,49 +11,86 @@ window#waybar {
     color: #{{foreground}};
 }
 
+/* Group backgrounds */
+.modules-left,
+.modules-right,
+.modules-center {
+    margin: 4px;
+    padding: 4px 10px;
+    background: #{{background_alt}};
+    border-radius: {{border_radius}}px;
+}
+
+/* Clock */
+#clock {
+    color: #{{foreground}};
+    font-weight: bold;
+}
+
+/* Arch icon */
+#custom-arch {
+    color: #{{accent}};
+    font-size: 16px;
+}
+
+/* Workspaces */
 #workspaces button {
-    padding: 0 2px;
+    padding: 0 3px;
     color: #{{comment}};
     background: transparent;
     border: none;
+    font-size: 16px;
 }
 
-/* Workspace containing at least one window */
 #workspaces button:not(.empty) {
     color: #{{foreground}};
 }
 
-/* Currently focused workspace */
 #workspaces button.active {
     color: #{{foreground}};
 }
 
-/* Workspace with windows, but not currently focused */
 #workspaces button:not(.active):not(.empty) {
     color: #{{accent}};
 }
 
-/* Hover */
 #workspaces button:hover {
     color: #{{foreground}};
 }
 
-#clock,
-#custom-weather,
-#tray {
-    padding: 0 10px;
-    margin: 4px 2px;
-    background: #{{background_alt}};
-    color: #{{foreground}};
-    border-radius: {{border_radius}}px;
+/* Right-side icons */
+#temperature,
+#cpu,
+#memory,
+#custom-screen-record,
+#network,
+#bluetooth,
+#pulseaudio,
+#battery,
+#custom-power {
+    font-size: 12px;
 }
 
-#custom-arch { color: #{{accent}}; font-size: 15px; }
-#clock       { color: #{{foreground}}; font-weight: bold; }
-#custom-weather { color: #{{yellow}}; }
+/* Weather */
+#custom-weather {
+    color: #{{yellow}};
+}
 
-#battery.warning  { color: #{{yellow}}; }
-#battery.critical { color: #{{red}}; }
-#network.disconnected { color: #{{red}}; }
-#bluetooth.off { color: #{{comment}}; }
+/* Battery */
+#battery.warning {
+    color: #{{yellow}};
+}
 
+#battery.critical {
+    color: #{{red}};
+}
+
+/* Network */
+#network.disconnected {
+    color: #{{red}};
+}
+
+/* Bluetooth */
+#bluetooth.off {
+    color: #{{comment}};
+}

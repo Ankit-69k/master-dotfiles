@@ -1,0 +1,38 @@
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+}
+
+.notification {
+    background: {{background}};
+    color: {{foreground}};
+    border: 1px solid {{border}};
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.notification-content {
+    padding: 2px;
+}
+
+.summary {
+    color: {{accent}};
+    font-weight: bold;
+}
+
+.body {
+    color: {{foreground}};
+    margin-top: 3px;
+}
+
+.close-button {
+    background: transparent;
+    color: {{foreground}};
+    border-radius: 6px;
+}
+
+.close-button:hover {
+    background: {{accent}};
+    color: {{background}};
+}

@@ -1,4 +1,4 @@
-# AUTO-GENERATED — theme: rose-pine
+# AUTO-GENERATED — theme: tokyo-night
 
 $env.config = {
     show_banner: false

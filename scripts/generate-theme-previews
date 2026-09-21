@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+RICE="$HOME/my-rice"
+THEMES="$RICE/themes"
+OUTPUT="$RICE/generated/theme-previews"
+
+mkdir -p "$OUTPUT"
+
+for THEME_DIR in "$THEMES"/*; do
+    [ -d "$THEME_DIR" ] || continue
+
+    THEME="$(basename "$THEME_DIR")"
+    COLORS="$THEME_DIR/colors.conf"
+
+    [ -f "$COLORS" ] || continue
+
+    # Load colors
+    unset background background_alt foreground accent
+    unset red green yellow blue magenta cyan
+
+    source "$COLORS"
+
+    cat > "$OUTPUT/$THEME.svg" <<EOF
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="180" viewBox="0 0 600 180">
+    <rect width="600" height="180" rx="18" fill="#$background"/>
+
+    <text
+        x="30"
+        y="45"
+        fill="#$foreground"
+        font-family="sans-serif"
+        font-size="24"
+        font-weight="bold">
+        $THEME
+    </text>
+
+    <rect x="30"  y="75" width="55" height="55" rx="8" fill="#$background"/>
+    <rect x="95"  y="75" width="55" height="55" rx="8" fill="#$foreground"/>
+    <rect x="160" y="75" width="55" height="55" rx="8" fill="#$accent"/>
+    <rect x="225" y="75" width="55" height="55" rx="8" fill="#$red"/>
+    <rect x="290" y="75" width="55" height="55" rx="8" fill="#$green"/>
+    <rect x="355" y="75" width="55" height="55" rx="8" fill="#$yellow"/>
+    <rect x="420" y="75" width="55" height="55" rx="8" fill="#$blue"/>
+    <rect x="485" y="75" width="55" height="55" rx="8" fill="#$magenta"/>
+</svg>
+EOF
+
+done
+
+echo "Theme previews generated in:"
+echo "$OUTPUT"

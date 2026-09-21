@@ -27,7 +27,7 @@
 
     // Modules
     "custom/arch": {
-      "format": "  ",
+      "format": " ",
       "tooltip": false,
       "on-click": "rofi -show drun"
     },
@@ -95,7 +95,7 @@
       "on-click": "ghostty --title='WiFi Menu' -e bash -c '$HOME/my-rice/scripts/wifi-menu.sh'"
     },
     "custom/power": {
-      "format" : "⏻  ",
+      "format" : "⏻ ",
       "tooltip": false,
       "on-click": "wlogout" 
     },
