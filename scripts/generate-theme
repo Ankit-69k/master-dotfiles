@@ -221,9 +221,10 @@ render_template \
 cp \
   "$CONFIG_DIR/hypr/keybinds.lua" \
   "$CURRENT_DIR/keybinds.lua"
-cp \
-  "$CONFIG_DIR/hypr/hyprpaper.conf" \
-  "$CURRENT_DIR/hyprpaper.conf"
+# Avoid triggering a running Hyprpaper config reload on every theme switch.
+if ! cmp -s "$CONFIG_DIR/hypr/hyprpaper.conf" "$CURRENT_DIR/hyprpaper.conf"; then
+  cp "$CONFIG_DIR/hypr/hyprpaper.conf" "$CURRENT_DIR/hyprpaper.conf"
+fi
 
 # ============================================================
 # Generate Rofi

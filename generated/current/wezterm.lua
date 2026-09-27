@@ -3,7 +3,7 @@ local wezterm = require 'wezterm'
 return {
     adjust_window_size_when_changing_font_size = false,
 
-    color_scheme = "TokyoNight",
+    color_scheme = "{{wezterm_theme}}",
 
     enable_tab_bar = false,
 

@@ -1,4 +1,4 @@
-# AUTO-GENERATED — theme: tokyo-night
+# AUTO-GENERATED — theme: rose-pine
 
 $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"
@@ -12,3 +12,29 @@ $env.PATH = (
     | prepend $"($env.HOME)/.local/bin"
     | prepend $"($env.HOME)/my-rice/scripts"
 )
+
+# fnm
+let fnm_dir = $"($env.HOME)/.local/share/fnm"
+$env.PATH = ($env.PATH | prepend $fnm_dir)
+
+if (which fnm | is-not-empty) {
+    let fnm_env = (fnm env --shell bash)
+
+    $fnm_env
+    | lines
+    | where { |line| $line | str starts-with "export FNM_" }
+    | each { |line|
+        let assignment = ($line | str replace "export " "")
+        let parts = ($assignment | split row "=")
+        let name = ($parts | first)
+        let value = ($parts | skip 1 | str join "=" | str trim --char '"')
+        load-env { $name: $value }
+    }
+
+    if "FNM_MULTISHELL_PATH" in $env {
+        $env.PATH = (
+            $env.PATH
+            | prepend $"($env.FNM_MULTISHELL_PATH)/bin"
+        )
+    }
+}

@@ -4,9 +4,9 @@
 }
 
 .notification {
-    background: {{background}};
-    color: {{foreground}};
-    border: 1px solid {{border}};
+    background: #{{background}};
+    color: #{{foreground}};
+    border: 1px solid #{{border}};
     border-radius: 10px;
     padding: 10px;
     margin: 5px;
@@ -17,22 +17,22 @@
 }
 
 .summary {
-    color: {{accent}};
+    color: #{{accent}};
     font-weight: bold;
 }
 
 .body {
-    color: {{foreground}};
+    color: #{{foreground}};
     margin-top: 3px;
 }
 
 .close-button {
     background: transparent;
-    color: {{foreground}};
+    color: #{{foreground}};
     border-radius: 6px;
 }
 
 .close-button:hover {
-    background: {{accent}};
-    color: {{background}};
+    background: #{{accent}};
+    color: #{{background}};
 }

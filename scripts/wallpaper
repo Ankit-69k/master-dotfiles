@@ -117,7 +117,6 @@ fi
 EXT="${WALLPAPER##*.}"
 EXT="${EXT,,}"
 
-printf '%s\n' "$WALLPAPER" >"$ACTIVE_WALLPAPER_FILE"
 
 echo
 echo "Theme:     $THEME"
@@ -131,7 +130,7 @@ echo
 
 case "$EXT" in
 
-gif | mp4 | webm)
+mp4 | webm)
 
   echo "Starting mpvpaper..."
 
@@ -151,49 +150,56 @@ gif | mp4 | webm)
   # Static wallpapers
   # --------------------------------------------------
 
-png | jpg | jpeg | webp)
+png | jpg | jpeg | webp | gif)
 
-  # If mpvpaper was running, stop it.
-  pkill -x mpvpaper 2>/dev/null || true
-
-  # Start Hyprpaper only if it isn't already running.
-  # if ! pgrep -x hyprpaper >/dev/null; then
-  #  echo "Starting Hyprpaper..."
-
-  #  hyprpaper \
-  #    >/tmp/hyprpaper.log 2>&1 &
-
-  # Wait for the process/socket instead of a fixed delay.
-  #   for _ in {1..50}; do
-  #    if hyprctl hyprpaper listloaded >/dev/null 2>&1; then
-  #      break
-  #    fi
-  #   done
-  # fi
-
-  # Get monitors
-  mapfile -t MONITORS < <(
-    hyprctl monitors |
-      awk '/^Monitor / {print $2}'
-  )
-
-  if [[ ${#MONITORS[@]} -eq 0 ]]; then
-    echo "Error: no Hyprland monitors found."
+  if ! command -v awww >/dev/null || ! command -v awww-daemon >/dev/null; then
+    echo "Error: awww and awww-daemon are required for wallpaper transitions." >&2
     exit 1
   fi
 
-  echo "Preloading wallpaper..."
+  # Keep the daemon alive across switches so it can animate from the old image.
+  started=false
+  if ! awww query >/dev/null 2>&1; then
+    if ! pgrep -x awww-daemon >/dev/null; then
+      nohup awww-daemon >/tmp/awww.log 2>&1 </dev/null &
+    fi
+    started=true
+    ready=false
+    for _ in {1..50}; do
+      if awww query >/dev/null 2>&1; then
+        ready=true
+        break
+      fi
+      sleep 0.1
+    done
+    if [[ "$ready" != true ]]; then
+      echo "Error: awww did not become ready; see /tmp/awww.log." >&2
+      exit 1
+    fi
+  fi
 
-  # Load image into Hyprpaper memory first.
-  hyprctl hyprpaper preload "$WALLPAPER" >/dev/null 2>&1 || true
+  # Seed a newly started daemon with the previous image before the reveal.
+  # This also handles the one-time migration from Hyprpaper.
+  if [[ "$started" == true && -f "$ACTIVE_WALLPAPER_FILE" ]]; then
+    previous="$(<"$ACTIVE_WALLPAPER_FILE")"
+    case "${previous,,}" in
+      *.png | *.jpg | *.jpeg | *.webp | *.gif)
+        if [[ -f "$previous" ]]; then
+          awww img "$previous" --transition-type none
+        fi
+        ;;
+    esac
+  fi
 
-  echo "Applying wallpaper..."
+  awww img "$WALLPAPER" \
+    --transition-type "${RICE_TRANSITION_TYPE:-grow}" \
+    --transition-pos center \
+    --transition-duration 0.8 \
+    --transition-fps 60
 
-  for MONITOR in "${MONITORS[@]}"; do
-    echo "  -> $MONITOR"
-
-    hyprctl hyprpaper wallpaper "$MONITOR,$WALLPAPER"
-  done
+  # Retire the old backend only after awww has accepted the replacement.
+  pkill -x hyprpaper 2>/dev/null || true
+  pkill -x mpvpaper 2>/dev/null || true
 
   echo "✓ Wallpaper applied."
   ;;
@@ -205,6 +211,8 @@ png | jpg | jpeg | webp)
   ;;
 
 esac
+
+printf '%s\n' "$WALLPAPER" >"$ACTIVE_WALLPAPER_FILE"
 
 echo
 echo "Active wallpaper:"

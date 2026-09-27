@@ -1,4 +1,4 @@
-# AUTO-GENERATED — theme: tokyo-night
+# AUTO-GENERATED — theme: rose-pine
 
 format = """
 ╭─ $directory$git_branch$git_status
@@ -7,36 +7,36 @@ format = """
 add_newline = false
 
 [directory]
-style = "bold #7aa2f7"
+style = "bold #9ccfd8"
 format = "[$path]($style) "
 truncation_length = 3
 truncate_to_repo = true
 
 [git_branch]
 symbol = "󰘬 "
-style = "bold #bb9af7"
+style = "bold #c4a7e7"
 format = "[$symbol$branch]($style) "
 
 [git_status]
-style = "bold #bb9af7"
+style = "bold #c4a7e7"
 format = "[$all_status$ahead_behind]($style)"
 
 [character]
-success_symbol = "[❯](#9ece6a)"
-error_symbol = "[❯](#f7768e)"
-vimcmd_symbol = "[❮](#bb9af7)"
+success_symbol = "[❯](#9ccfd8)"
+error_symbol = "[❯](#eb6f92)"
+vimcmd_symbol = "[❮](#c4a7e7)"
 
 [cmd_duration]
 min_time = 1000
-format = "took [$duration](#7aa2f7) "
+format = "took [$duration](#9ccfd8) "
 
 [username]
 show_always = false
-style_user = "bold #7aa2f7"
+style_user = "bold #9ccfd8"
 
 [hostname]
 ssh_only = true
-style = "bold #bb9af7"
+style = "bold #c4a7e7"
 
 [line_break]
 disabled = false

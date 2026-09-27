@@ -7,19 +7,11 @@ GENERATED="$RICE/generated/current"
 ACTIVE_WALLPAPER="$RICE/generated/ACTIVE_WALLPAPER"
 
 # ─────────────────────────────────────
-# Start Hyprpaper
-# ─────────────────────────────────────
-
-if ! pgrep -x hyprpaper >/dev/null; then
-  hyprpaper >/tmp/hyprpaper.log 2>&1 &
-fi
-
-# ─────────────────────────────────────
 # Apply current wallpaper
 # ─────────────────────────────────────
 
 if [[ -f "$ACTIVE_WALLPAPER" ]]; then
-  "$RICE/scripts/wallpaper-current"
+  RICE_TRANSITION_TYPE=none "$RICE/scripts/wallpaper-current" >/tmp/wallpaper.log 2>&1
 fi
 
 # ─────────────────────────────────────
