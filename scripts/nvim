@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+RICE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export RICE_DIR
+export NVIM_APPNAME=my-rice-nvim
+# scripts/ can itself be on PATH. Skip this launcher when finding the binary.
+launcher="$(readlink -f "${BASH_SOURCE[0]}")"
+while IFS= read -r -u 3 candidate; do
+  if [[ "$(readlink -f "$candidate")" != "$launcher" ]]; then
+    exec "$candidate" -u "$RICE_DIR/config/nvim/init.lua" "$@" 3<&-
+  fi
+# Keep stdin intact for interactive startup and intentional piped input.
+done 3< <(type -a -p nvim)
+echo "Neovim executable not found in PATH" >&2
+exit 1

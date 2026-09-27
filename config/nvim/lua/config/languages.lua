@@ -1,0 +1,66 @@
+-- Add servers, Mason packages, parsers and filetype formatters here.
+-- Server names: nvim-lspconfig. Tool names: Mason. Formatter names: Conform.
+return {
+	servers = {
+		gopls = { settings = { gopls = { staticcheck = true } } },
+		ts_ls = {}, -- JavaScript, TypeScript, JSX and TSX
+		eslint = {}, -- Uses each project's ESLint configuration.
+		html = {},
+		cssls = {},
+		tailwindcss = {}, -- Attaches to projects with Tailwind configuration.
+		pyright = {},
+		ruff = {},
+		sqls = {},
+		jsonls = { settings = { json = { validate = { enable = true } } } },
+		lua_ls = {
+			settings = { Lua = { diagnostics = { globals = { "vim" } }, telemetry = { enable = false } } },
+		},
+		dockerls = {},
+		docker_compose_language_service = {},
+		rust_analyzer = {},
+	},
+	tools = { "goimports", "prettier", "ruff", "sql-formatter", "stylua", "tree-sitter-cli" },
+	parsers = {
+		"go",
+		"gomod",
+		"gosum",
+		"gowork",
+		"javascript",
+		"typescript",
+		"tsx",
+		"html",
+		"css",
+		"python",
+		"sql",
+		"json",
+		"lua",
+		"luadoc",
+		"dockerfile",
+		"yaml",
+		"rust",
+		"toml",
+		"bash",
+		"markdown",
+		"markdown_inline",
+		"vim",
+		"vimdoc",
+	},
+	formatters = {
+		go = { "goimports", "gofmt" },
+		javascript = { "prettier" },
+		javascriptreact = { "prettier" },
+		typescript = { "prettier" },
+		typescriptreact = { "prettier" },
+		html = { "prettier" },
+		css = { "prettier" },
+		python = { "ruff_organize_imports", "ruff_format" },
+		sql = { "sql_formatter" },
+		json = { "prettier" },
+		jsonc = { "prettier" },
+		lua = { "stylua" },
+		yaml = { "prettier" },
+		["yaml.docker-compose"] = { "prettier" },
+		rust = { "rustfmt" }, -- Installed with the Rust toolchain, not Mason.
+		markdown = { "prettier" },
+	},
+}

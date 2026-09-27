@@ -1,0 +1,18 @@
+WRN 2026-09-27T17:56:51.503 ?.3        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.3.0
+WRN 2026-09-27T17:57:11.444 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
+WRN 2026-09-27T17:57:18.246 ?.4        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.4.0
+WRN 2026-09-27T17:57:50.193 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/my-rice-nvim.2.0
+WRN 2026-09-27T18:03:13.629 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
+WRN 2026-09-27T18:18:04.277 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/my-rice-nvim.2.0
+WRN 2026-09-27T18:20:42.047 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/my-rice-nvim.2.0
+WRN 2026-09-28T00:06:17.169 ui.2       tui_handle_term_mode:226: TUI: terminal mode 69 unavailable, state 0
+WRN 2026-09-28T00:06:17.169 ui.2       tui_handle_term_mode:226: TUI: terminal mode 2026 unavailable, state 0
+WRN 2026-09-28T00:06:17.169 ui.2       tui_handle_term_mode:226: TUI: terminal mode 2027 unavailable, state 0
+WRN 2026-09-28T00:06:17.169 ui.2       tui_handle_term_mode:226: TUI: terminal mode 2031 unavailable, state 0
+WRN 2026-09-28T00:06:17.169 ui.2       tui_handle_term_mode:226: TUI: terminal mode 2048 unavailable, state 0
+WRN 2026-09-28T00:06:17.173 ?.9        server_start:197: Failed to start server: operation not permitted: /run/user/1000/my-rice-nvim.9.0
+ERR 2026-09-28T00:06:17.217 ?.9        os_set_cloexec:497: Failed to get flags on descriptor 3: Bad file descriptor
+WRN 2026-09-28T00:06:54.835 ui.2       tui_stop:658: TUI: timed out waiting for DA1 response
+WRN 2026-09-28T00:09:42.744 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
+WRN 2026-09-28T00:37:30.653 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/my-rice-nvim.2.0
+WRN 2026-09-28T00:38:22.171 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
