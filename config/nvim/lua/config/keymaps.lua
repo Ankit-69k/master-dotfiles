@@ -14,21 +14,21 @@ map("n", "<leader>q", "<cmd>q<cr>", {
 })
 
 -- Clear search
-map("n", "<Esc>", "<cmd>nohlsearch<cr>")
+map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlighting" })
 
 -- Window navigation
-map("n", "<C-h>", "<C-w>h")
-map("n", "<C-j>", "<C-w>j")
-map("n", "<C-k>", "<C-w>k")
-map("n", "<C-l>", "<C-w>l")
+map("n", "<C-h>", "<C-w>h", { desc = "Focus left window" })
+map("n", "<C-j>", "<C-w>j", { desc = "Focus lower window" })
+map("n", "<C-k>", "<C-w>k", { desc = "Focus upper window" })
+map("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
 
 -- Keep selected text selected while indenting
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+map("v", "<", "<gv", { desc = "Indent selection left" })
+map("v", ">", ">gv", { desc = "Indent selection right" })
 
 -- Move selected lines
-map("v", "J", ":m '>+1<CR>gv=gv")
-map("v", "K", ":m '<-2<CR>gv=gv")
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })

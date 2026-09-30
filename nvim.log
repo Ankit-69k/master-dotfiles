@@ -16,3 +16,6 @@ WRN 2026-09-28T00:06:54.835 ui.2       tui_stop:658: TUI: timed out waiting for 
 WRN 2026-09-28T00:09:42.744 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
 WRN 2026-09-28T00:37:30.653 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/my-rice-nvim.2.0
 WRN 2026-09-28T00:38:22.171 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
+WRN 2026-09-30T11:35:48.651 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/my-rice-nvim.2.0
+WRN 2026-09-30T11:38:43.337 ?.3        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.3.0
+WRN 2026-09-30T11:39:21.518 ?.3        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.3.0

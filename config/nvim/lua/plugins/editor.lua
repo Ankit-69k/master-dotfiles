@@ -1,5 +1,17 @@
 return {
-	{ "folke/which-key.nvim", opts = {} },
+	{
+		"folke/which-key.nvim",
+		opts = {},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = true })
+				end,
+				desc = "Show key bindings",
+			},
+		},
+	},
 	{ "echasnovski/mini.pairs", version = false, opts = {} },
 	{
 		"nvim-lualine/lualine.nvim",
